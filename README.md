@@ -7,7 +7,7 @@
 |Matrícula | Aluno |
 | -- | -- |
 | 18/0101617  |  Guilherme de Morais Richter |
-| Italo Fernandes  |  Italo Fernandes |
+| 18/0102613  |  Italo Fernandes |
 
 ## Sobre 
 Descreva os objetivos do seu projeto e como ele funciona. 
