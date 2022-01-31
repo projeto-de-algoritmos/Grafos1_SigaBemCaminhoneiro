@@ -6,7 +6,7 @@
 ## Alunos
 |Matrícula | Aluno |
 | -- | -- |
-| 18/0101617  |  Guilherme de Morais Richter |
+| 18/0101617  |  Guilherme de Morais |
 | 18/0102613  |  Italo Fernandes |
 
 ## Sobre 
