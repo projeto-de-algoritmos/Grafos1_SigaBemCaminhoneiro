@@ -10,7 +10,7 @@
 | 18/0102613  |  Italo Fernandes |
 
 ## Sobre 
-Descreva os objetivos do seu projeto e como ele funciona. 
+Esse programa tem o objetivo de auxiliar caminhoneiros em suas viagens.
 
 ## Screenshots
 Adicione 3 ou mais screenshots do projeto em funcionamento.
