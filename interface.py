@@ -167,8 +167,8 @@ def mostra_estradas_inativas():
     if len(lista_estradas_inativas) == 0:
         return '\nNão há estradas inativas.\n'
     else:
-        print('\nEstradas inativas:')
         lista_final = []
+        lista_final.append('Estradas inativas:\n')
         for i in range(len(lista_estradas_inativas)):
             lista_final.append(str(i) + '. ' +
                                str(lista_estradas_inativas[i]['estado1']) + ' - ' + str(lista_estradas_inativas[i]['estado2']))
@@ -179,18 +179,22 @@ def mostra_estradas_inativas():
 def melhor_caminho(estado1, estado2):
     caminho = nx.shortest_path(Brasil, source=estado1, target=estado2)
     lista_final = []
+    lista_final.append('O melhor caminho para você utilizar é: ')
     for i in range(len(caminho)):
         if i == (len(caminho) - 1):
             lista_final.append(str(caminho[i]))
         else:
-            lista_final.append(str(caminho[i]) + ' - ')
+            lista_final.append(str(caminho[i]) + ' -> ')
+    lista_final.append('. Boa viagem!')
+    lista_final = (''.join(lista_final))
+    # print(lista_final)
     return lista_final
 
 
 def pergunta_caminho():
-    print('\nOlá, caminhoneiro!\n')
+    # print('\nOlá, caminhoneiro!\n')
 
-    print('No Brasil nós temos os seguintes estados:')
+    # print('No Brasil nós temos os seguintes estados:')
     lista_estados = list(Brasil.nodes)
     lista_estados.sort()
     lista_final = []
@@ -200,20 +204,25 @@ def pergunta_caminho():
         else:
             lista_final.append(str(lista_estados[i]) + ', ')
 
-    #estado_atual = input('\nDigite a sigla do estado onde você está: ')
-    #estado_destino = input('Digite a sigla do estado onde você quer ir: ')
+    # estado_atual = input('\nDigite a sigla do estado onde você está: ')
+    # estado_destino = input('Digite a sigla do estado onde você quer ir: ')
 
-    #print('\nAtualmente o melhor caminho para você utilizar é:')
-    #melhor_caminho(estado_atual, estado_destino)
+    # print('\nAtualmente o melhor caminho para você utilizar é:')
+    # melhor_caminho(estado_atual, estado_destino)
 
-    print('\nBoa viagem!')
+    # print('\nBoa viagem!')
+    lista_final = (''.join(lista_final))
     return lista_final
 
 
 def mostra_estradas():
-    print('\nEstradas ativas:')
     lista_estradas = list(Brasil.edges)
+
+    if len(lista_estradas) == 0:
+        return '\nNão há estradas ativas.\n'
+
     lista_final = []
+    lista_final.append('Estradas ativas:\n')
     for i in range(len(lista_estradas)):
         lista_final.append(str(i) + '. ' +
                            str(lista_estradas[i][0]) + ' - ' + str(lista_estradas[i][1]))
@@ -222,13 +231,17 @@ def mostra_estradas():
 
 
 def pergunta_inativar(x):
-    print('\nHá algum problema com as estradas?\nAqui você pode desativar uma delas.\n')
+    # print('\nHá algum problema com as estradas?\nAqui você pode desativar uma delas.\n')
 
-    print('Atualmente temos as seguintes estradas funcionando:\n')
+    # print('Atualmente temos as seguintes estradas funcionando:\n')
     # mostra_estradas()
 
     lista_estradas = list(Brasil.edges)
     cod_estrada = int(x)
+
+    if(int(x) > len(lista_estradas) or int(x) < 0):
+        return 'Não existe essa estrada! Digite um número listado.'
+
     estado_origem = lista_estradas[cod_estrada][0]
     estado_final = lista_estradas[cod_estrada][1]
     lista_final = []
@@ -236,6 +249,7 @@ def pergunta_inativar(x):
 
     lista_final.append('\nA estrada que liga ' + estado_origem +
                        ' a ' + estado_final + ' foi desativada.\n')
+    lista_final = (''.join(lista_final))
     return lista_final
 
 
@@ -245,12 +259,16 @@ def ativa_estrada(estado1, estado2):
 
 
 def pergunta_ativar(x):
-    print('\nHá alguma estrada restaurada?\nAqui você pode reativar uma delas.\n')
+    # print('\nHá alguma estrada restaurada?\nAqui você pode reativar uma delas.\n')
 
-    print('Atualmente temos as seguintes estradas desativadas:\n')
+    # print('Atualmente temos as seguintes estradas desativadas:\n')
     # mostra_estradas_inativas()
 
     cod_estrada = int(x)
+
+    if(int(x) > len(lista_estradas_inativas) or int(x) < 0):
+        return 'Essa estrada não está inativa! Digite um número listado.'
+
     estado_origem = lista_estradas_inativas[cod_estrada]['estado1']
     estado_final = lista_estradas_inativas[cod_estrada]['estado2']
     lista_final = []
@@ -259,6 +277,8 @@ def pergunta_ativar(x):
 
     lista_final.append('\nA estrada que liga ' + estado_origem +
                        ' a ' + estado_final + ' foi reativada.\n')
+
+    lista_final = (''.join(lista_final))
     return lista_final
 
 
@@ -332,7 +352,7 @@ def encontrar():
 
     text = Text(root, width=41, height=2, fg='White', bg='black')
     text.place(relx=0.5, rely=0.1, anchor=CENTER)
-    texto = '\t    Olá Caminhoneiro\nNo Brasil nós temos os seguintes estados:\n'
+    texto = '\t    Olá, Caminhoneiro!\nNo Brasil nós temos os seguintes estados:\n'
     text.insert(END, texto)
 
     text = Text(root, width=90, height=2, fg='White', bg='black')
@@ -340,16 +360,16 @@ def encontrar():
     texto = pergunta_caminho()
     text.insert(END, texto)
 
-    text = Text(root, width=26, height=1, fg='White', bg='black')
+    text = Text(root, width=43, height=1, fg='White', bg='black')
     text.place(relx=0.5, rely=0.26, anchor=CENTER)
-    texto = 'Insira o local de partida:'
+    texto = 'Insira o local de partida: (apenas a sigla)'
     text.insert(END, texto)
     estado_atual = Entry(root, width=26, fg='black', bg='White')
     estado_atual.place(relx=0.5, rely=0.3, anchor=CENTER)
 
-    text = Text(root, width=26, height=1, fg='White', bg='black')
+    text = Text(root, width=43, height=1, fg='White', bg='black')
     text.place(relx=0.5, rely=0.36, anchor=CENTER)
-    texto = 'Insira o local da chegada:'
+    texto = 'Insira o local da chegada: (apenas a sigla)'
     text.insert(END, texto)
     estado_destino = Entry(root, width=26, fg='black', bg='White')
     estado_destino.place(relx=0.5, rely=0.4, anchor=CENTER)
