@@ -4,7 +4,7 @@ import networkx as nx
 import matplotlib.pyplot as plt
 
 # instancia o grafo
-Brasil = nx.Graph()
+Brasil = nx.DiGraph()
 
 # adicionando os nos
 Brasil.add_node('RR')
@@ -137,6 +137,50 @@ Brasil.add_edge('SC', 'PR')
 Brasil.add_edge('SC', 'RS')
 Brasil.add_edge('RS', 'SC')
 
+estados = list(Brasil.nodes)
+estados.sort()
+traduz = []
+for i in range(len(estados)):
+    traduz.append({'estado': str(estados[i]), 'cod': i})
+
+malha_rodoviaria = {}
+
+
+def retorna_cod_estado(estado):
+    for i in range(len(estados)):
+        if traduz[i]['estado'] == estado:
+            cod = traduz[i]['cod']
+    return cod
+
+
+def retorna_nome_estado(cod):
+    estado = str('-')
+    for i in range(len(traduz)):
+        if traduz[i]['cod'] == int(cod):
+            estado = traduz[i]['estado']
+    return estado
+
+
+def bfs(grafo, inicio, fim):
+    explorado = []
+    fila = [[inicio]]
+    if inicio == fim:
+        return inicio
+    while fila:
+        caminho = fila.pop(0)
+        no = caminho[-1]
+        if no not in explorado:
+            print('no = ', no)
+            print('grafo = ', grafo[no])
+            vizinhos = grafo[no]
+            for vizinho in vizinhos:
+                novo_caminho = caminho.copy()
+                novo_caminho.append(vizinho)
+                fila.append(novo_caminho)
+                if vizinho == fim:
+                    return novo_caminho
+            explorado.append(no)
+
 
 def reativa_estrada(estado1, estado2):
     Brasil.add_edge(estado1, estado2)
@@ -149,7 +193,9 @@ def estados_ligados(estado):
 
 
 def imprime_mapa():
-    nx.draw_spring(Brasil, with_labels=1)
+
+    nx.draw_spring(Brasil, with_labels=1, node_size=300, font_size=8, width=2, style="solid", node_color="green",
+                   font_color="white", font_weight="bold", edge_color="gray")
     plt.show()
     return
 
@@ -176,25 +222,42 @@ def mostra_estradas_inativas():
         return lista_final
 
 
-def melhor_caminho(estado1, estado2):
-    caminho = nx.shortest_path(Brasil, source=estado1, target=estado2)
+def melhor_caminho(estado_1, estado_2):
+
+    malha_rodoviaria = {}
+
+    estradas = list(Brasil.edges)
+
+    for i in range(len(estradas)):
+
+        estado1 = estradas[i][0]
+        estado2 = estradas[i][1]
+        cod_estado1 = retorna_cod_estado(estado1)
+        cod_estado2 = retorna_cod_estado(estado2)
+        if cod_estado1 not in malha_rodoviaria:
+            malha_rodoviaria[cod_estado1] = []
+
+        malha_rodoviaria[cod_estado1].append(cod_estado2)
+
     lista_final = []
     lista_final.append('O melhor caminho para você utilizar é: ')
+    caminho = bfs(malha_rodoviaria, retorna_cod_estado(
+        estado_1), retorna_cod_estado(estado_2))
+
     for i in range(len(caminho)):
         if i == (len(caminho) - 1):
-            lista_final.append(str(caminho[i]))
+            lista_final.append(retorna_nome_estado(caminho[i]))
         else:
-            lista_final.append(str(caminho[i]) + ' -> ')
+            lista_final.append(retorna_nome_estado(caminho[i]) + ' -> ')
+
     lista_final.append('. Boa viagem!')
     lista_final = (''.join(lista_final))
-    # print(lista_final)
+
     return lista_final
 
 
 def pergunta_caminho():
-    # print('\nOlá, caminhoneiro!\n')
 
-    # print('No Brasil nós temos os seguintes estados:')
     lista_estados = list(Brasil.nodes)
     lista_estados.sort()
     lista_final = []
@@ -204,13 +267,6 @@ def pergunta_caminho():
         else:
             lista_final.append(str(lista_estados[i]) + ', ')
 
-    # estado_atual = input('\nDigite a sigla do estado onde você está: ')
-    # estado_destino = input('Digite a sigla do estado onde você quer ir: ')
-
-    # print('\nAtualmente o melhor caminho para você utilizar é:')
-    # melhor_caminho(estado_atual, estado_destino)
-
-    # print('\nBoa viagem!')
     lista_final = (''.join(lista_final))
     return lista_final
 
@@ -231,10 +287,6 @@ def mostra_estradas():
 
 
 def pergunta_inativar(x):
-    # print('\nHá algum problema com as estradas?\nAqui você pode desativar uma delas.\n')
-
-    # print('Atualmente temos as seguintes estradas funcionando:\n')
-    # mostra_estradas()
 
     lista_estradas = list(Brasil.edges)
     cod_estrada = int(x)
@@ -259,10 +311,6 @@ def ativa_estrada(estado1, estado2):
 
 
 def pergunta_ativar(x):
-    # print('\nHá alguma estrada restaurada?\nAqui você pode reativar uma delas.\n')
-
-    # print('Atualmente temos as seguintes estradas desativadas:\n')
-    # mostra_estradas_inativas()
 
     cod_estrada = int(x)
 
@@ -282,13 +330,15 @@ def pergunta_ativar(x):
     return lista_final
 
 
+print(Brasil.edges)
+
 root = Tk()
 
 root.geometry('1000x800')
 root.config(background='White')
 root.resizable(width=False, height=False)
 
-imag_1 = Image.open('estrada3.jpg')
+imag_1 = Image.open('background.jpg')
 
 imag_1 = ImageTk.PhotoImage(imag_1)
 
@@ -538,17 +588,31 @@ def menu():
     background = Label(image=imag_1)
     background.grid(row=1, column=0, columnspan=3)
 
+    logo = Image.open('assets/logo.jpg')
+    logo = ImageTk.PhotoImage(logo)
+    logo_label = Label(root, image=logo)
+    logo_label.image = logo
+    logo_label.grid(column=0, row=1)
+    logo_label.place(relx=0.5, rely=0.2, anchor=CENTER)
+
+    placa = Image.open('assets/placa.png')
+    placa = ImageTk.PhotoImage(placa)
+    placa_label = Label(root, image=placa)
+    placa_label.image = placa
+    placa_label.grid(column=0, row=1)
+    placa_label.place(relx=0.5, rely=0.4, anchor=CENTER)
+
     buttonCaminhoneiro = Button(root, text='Caminhoneiro', padx=85,
                                 pady=5, fg='white', bg='black', command=caminhoneiro)
-    buttonCaminhoneiro.place(relx=0.5, rely=0.1, anchor=CENTER)
+    buttonCaminhoneiro.place(relx=0.5, rely=0.6, anchor=CENTER)
 
     buttonFiscal = Button(root, text='Fiscal do DER', padx=85,
                           pady=5, fg='white', bg='black', command=fiscal)
-    buttonFiscal.place(relx=0.5, rely=0.2, anchor=CENTER)
+    buttonFiscal.place(relx=0.5, rely=0.7, anchor=CENTER)
 
     buttonSaida = Button(root, text='Sair', padx=85, pady=5,
                          fg='white', bg='black', command=root.quit)
-    buttonSaida.place(relx=0.5, rely=0.5, anchor=CENTER)
+    buttonSaida.place(relx=0.5, rely=0.9, anchor=CENTER)
 
 
 menu()
