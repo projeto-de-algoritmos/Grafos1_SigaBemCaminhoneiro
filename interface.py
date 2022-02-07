@@ -170,8 +170,6 @@ def bfs(grafo, inicio, fim):
         caminho = fila.pop(0)
         no = caminho[-1]
         if no not in explorado:
-            print('no = ', no)
-            print('grafo = ', grafo[no])
             vizinhos = grafo[no]
             for vizinho in vizinhos:
                 novo_caminho = caminho.copy()
@@ -329,8 +327,6 @@ def pergunta_ativar(x):
     lista_final = (''.join(lista_final))
     return lista_final
 
-
-print(Brasil.edges)
 
 root = Tk()
 
