@@ -17,22 +17,22 @@ A ideia por trás deste projeto é auxiliar caminhoneiros a terem conhecimento s
 ## Screenshots
 
 <b>Screenshot do menu inicial.</b>
-![Menu inicial](assets/foto_menu.PNG)
+![Menu inicial](assets/foto_menu.png)
 
 <b>Screenshot do menu do caminhoneiro.</b>
-![Menu do caminhoneiro](assets/foto_caminhoneiro.PNG)
+![Menu do caminhoneiro](assets/foto_caminhoneiro.png)
 
 <b>Screenshot da opção de ver mapa.</b>
-![Opção de ver mapa](assets/foto_mapa.PNG)
+![Opção de ver mapa](assets/foto_mapa.png)
 
 <b>Screenshot da opção de solicitar uma rota.</b>
-![Opção de solicitar uma rota](assets/foto_pederota.PNG)
+![Opção de solicitar uma rota](assets/foto_pederota.png)
 
 <b>Screenshot do menu do fiscal do DER.</b>
-![Menu do fiscal do DER](assets/foto_fiscalder.PNG)
+![Menu do fiscal do DER](assets/foto_fiscalder.png)
 
 <b>Screenshot da opção de inativar uma estrada.</b>
-![Opção de inativar uma estrada](assets/foto_inativarestrada.PNG)
+![Opção de inativar uma estrada](assets/foto_inativarestrada.png)
 
 
 ## Instalação 
