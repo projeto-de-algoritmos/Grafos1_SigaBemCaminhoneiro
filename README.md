@@ -9,6 +9,9 @@
 | 18/0101617  |  Guilherme de Morais Richter |
 | 18/0102613  |  Ítalo Fernandes Sales de Serra |
 
+## Apresentação
+Clique no link para assistir à apresentação: https://youtu.be/LRhwsSJiGTc
+
 ## Sobre 
 A ideia por trás deste projeto é auxiliar caminhoneiros a terem conhecimento sobre qual é o melhor caminhos entre os estados do Brasil por meio das estradas interestaduais. O programa possui dois perfis:
 - <b>Caminhoneiro</b>: Perfil em que o caminhoneiro pode solicitar a melhor rota que deseja, ver quais estradas estão em funcionamento ou não e ver um mapa das estradas em funcionamento.
